@@ -25,6 +25,11 @@ public class WalletController {
 
   private final WalletServiceImpl walletService;
 
+  /**
+   * Creates a wallet.
+   * @param createWalletRequest wallet creation request.
+   * @return created wallet id.
+   */
   @PostMapping(value = "/create")
   public ResponseEntity<CreateWalletResponse> createWallet(
       @RequestBody CreateWalletRequest createWalletRequest) {
@@ -33,6 +38,11 @@ public class WalletController {
     return ResponseEntity.status(HttpStatus.CREATED).body(createWalletResponse);
   }
 
+  /**
+   * Get wallet by wallet id.
+   * @param getWalletRequest contains wallet id.
+   * @return current coins details.
+   */
   @GetMapping(value = "/get")
   public ResponseEntity<GetWalletResponse> getWallet(
       @RequestBody GetWalletRequest getWalletRequest) {
@@ -44,6 +54,11 @@ public class WalletController {
     }
   }
 
+  /**
+   * To pay using wallet.
+   * @param payRequest contains wallet id and amount to be paid.
+   * @return whether payment is successful or not and current coin status.
+   */
   @PutMapping(value = "/pay")
   public ResponseEntity<PayResponse> pay(@RequestBody PayRequest payRequest) {
     PayResponse payWalletResponse =
