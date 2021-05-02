@@ -27,6 +27,7 @@ public class WalletController {
 
   /**
    * Creates a wallet.
+   *
    * @param createWalletRequest wallet creation request.
    * @return created wallet id.
    */
@@ -40,6 +41,7 @@ public class WalletController {
 
   /**
    * Get wallet by wallet id.
+   *
    * @param getWalletRequest contains wallet id.
    * @return current coins details.
    */
@@ -56,6 +58,7 @@ public class WalletController {
 
   /**
    * To pay using wallet.
+   *
    * @param payRequest contains wallet id and amount to be paid.
    * @return whether payment is successful or not and current coin status.
    */

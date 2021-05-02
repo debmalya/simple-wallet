@@ -71,16 +71,17 @@ class WalletServiceTest {
     CreateWalletResponse response = walletService.createWallet(coins);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
-    payNVerify(walletId,3,"Successfully paid 3 current coins are [2, 3]");
+    payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
   }
+
   @Test
   void payWithChange() {
     Integer[] coins = {2, 3, 1, 2, 1};
     CreateWalletResponse response = walletService.createWallet(coins);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
-    payNVerify(walletId,3,"Successfully paid 3 current coins are [2, 3]");
-    payNVerify(walletId,1,"Successfully paid 1 current coins are [1, 3]");
+    payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
+    payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 3]");
   }
 
   @Test
@@ -104,7 +105,6 @@ class WalletServiceTest {
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 3]");
     payNVerify(walletId, 2, "Successfully paid 2 current coins are [2]");
     payNVerify(walletId, 5, "You do not have sufficient coins to pay 5 current coins are [2]");
-
   }
 
   @Test
@@ -112,7 +112,10 @@ class WalletServiceTest {
     Integer[] coins = {2, 3, 1, 2, 1};
     CreateWalletResponse response = walletService.createWallet(coins);
     UUID walletId = response.getWalletId();
-    payNVerify(walletId, 10, "You do not have sufficient coins to pay 10 current coins are [1, 1, 2, 2, 3]");
+    payNVerify(
+        walletId,
+        10,
+        "You do not have sufficient coins to pay 10 current coins are [1, 1, 2, 2, 3]");
   }
 
   @Test
@@ -125,11 +128,10 @@ class WalletServiceTest {
 
   @Test
   void payWithNonExistingWallet() {
-    PayResponse payResponse =
-        walletService.pay(NON_EXISTING_WALLET_ID, 100);
+    PayResponse payResponse = walletService.pay(NON_EXISTING_WALLET_ID, 100);
     assertEquals(1, payResponse.getErrors().size());
     assertEquals(
-        String.format("'%s' matching wallet not found",NON_EXISTING_WALLET_ID),
+        String.format("'%s' matching wallet not found", NON_EXISTING_WALLET_ID),
         payResponse.getErrors().get(0).getErrorMessage());
   }
 

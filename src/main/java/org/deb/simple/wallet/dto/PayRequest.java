@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PayRequest {
-   private UUID walletId;
-   private int amount;
+  private UUID walletId;
+  private int amount;
 }

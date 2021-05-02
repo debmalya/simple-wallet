@@ -17,31 +17,31 @@ Sample response
 * By calling api http://localhost:8080/api/wallet/v0/get method GET. Sample request
 ```
 {
-     "walletId": "29435d59-889b-4515-8f39-4a136149c187"
+	"walletId": "29435d59-889b-4515-8f39-4a136149c187"
 }
 ```
 Sample response
 ```
 {
-    "walletId": "29435d59-889b-4515-8f39-4a136149c187",
-    "message": "current coins are [1, 1, 2, 2, 3]",
-    "errors": []
+	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
+	"message": "current coins are [1, 1, 2, 2, 3]",
+	"errors": []
 }
 ```
 
 * By calling api http://localhost:8080/api/wallet/v0/pay method PUT. Sample request
 ```
 {
-     "walletId": "29435d59-889b-4515-8f39-4a136149c187",
-     "amount":1
+	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
+	"amount":1
 }
 ```
 Sample response
 ```
 {
-    "walletId": "29435d59-889b-4515-8f39-4a136149c187",
-    "message": "Successfully paid 1 current coins are [1, 2, 2, 3]",
-    "errors": []
+	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
+	"message": "Successfully paid 1 current coins are [1, 2, 2, 3]",
+	"errors": []
 }
 ```
 
@@ -72,4 +72,3 @@ Unit test coverage using Jacoco can be run via `mvn clean test jacoco:report` an
 `mvn install`
 
 ## [Swagger documentation](http://localhost:8080/swagger-ui.html)
-

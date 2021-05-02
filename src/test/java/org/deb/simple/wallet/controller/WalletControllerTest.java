@@ -68,13 +68,12 @@ class WalletControllerTest {
         mockMvc
             .perform(put("/api/wallet/v0/pay").contentType("application/json").content(requestJson))
             .andDo(print())
-            .andExpect(jsonPath("$.message").value("Successfully paid 1 current coins are [1, 2, 2, 3]"))
+            .andExpect(
+                jsonPath("$.message").value("Successfully paid 1 current coins are [1, 2, 2, 3]"))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse();
   }
-
-
 
   @Test
   void getNonExistingWallet() throws Exception {

@@ -5,6 +5,4 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PayResponse extends GetWalletResponse{
-
-}
+public class PayResponse extends GetWalletResponse {}
