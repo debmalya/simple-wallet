@@ -1,3 +1,19 @@
+# Story
+Imagine customers create digital wallet with merchants. They store their coins and pay time to time using that wallet.
+* By calling api http://localhost:8080/api/wallet/v0/create method POST. Sample request
+```
+{
+	"coins":[2,3,1,2,1]
+}
+```
+Sample response
+```
+{
+	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
+	"message": "Success",
+	"errors": []
+}
+```
 # Technology stack
 * Java 11
 * Spring boot ( with Spring Data JPA)

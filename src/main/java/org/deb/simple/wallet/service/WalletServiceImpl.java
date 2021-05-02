@@ -2,11 +2,14 @@ package org.deb.simple.wallet.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.deb.simple.wallet.dto.CreateWalletResponse;
+import org.deb.simple.wallet.dto.GetWalletResponse;
 import org.deb.simple.wallet.dto.WalletError;
 import org.deb.simple.wallet.entity.Coins;
 import org.deb.simple.wallet.entity.Wallet;
@@ -50,6 +53,48 @@ public class WalletServiceImpl implements WalletService {
     createWalletResponse.setWalletErrorList(walletErrorList);
 
     return createWalletResponse;
+  }
+
+  @Override
+  public GetWalletResponse getWallet(UUID walletId) {
+    Optional<Wallet> retrievedWallet = walletRepository.findById(walletId);
+    var getWalletResponse = new GetWalletResponse();
+    List<WalletError> errorList = new ArrayList<>();
+    List<Integer> coinList = new ArrayList<>();
+    if (retrievedWallet.isPresent()) {
+      setWalletResponse(retrievedWallet.get(), getWalletResponse, coinList);
+    } else {
+      walletNotFound(walletId, getWalletResponse, errorList);
+    }
+
+    getWalletResponse.setErrors(errorList);
+    return getWalletResponse;
+  }
+
+  private void walletNotFound(
+      UUID walletId, GetWalletResponse getWalletResponse, List<WalletError> errorList) {
+    getWalletResponse.setWalletId(null);
+    var walletError = new WalletError();
+    walletError.setErrorMessage(
+        MessageUtil.createErrorMessage("'%s' matching wallet not found", walletId));
+    errorList.add(walletError);
+  }
+
+  private void setWalletResponse(
+      Wallet wallet, GetWalletResponse getWalletResponse, List<Integer> coinList) {
+    getWalletResponse.setWalletId(wallet.getWalletId());
+    getWalletResponse.setMessage(walletToString(wallet.getCoinsList(), coinList));
+  }
+
+  private String walletToString(List<Coins> coinsList, List<Integer> coinList) {
+    for (Coins eachCoin : coinsList) {
+      var count = 0;
+      while (count < eachCoin.getQuantity()) {
+        coinList.add(eachCoin.getDenomination());
+        count++;
+      }
+    }
+    return MessageUtil.setCurrentMessage(coinList.toArray(new Integer[0]));
   }
 
   private void addWalletError(List<WalletError> walletErrorList, Integer coin) {
