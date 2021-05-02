@@ -3,6 +3,7 @@ package org.deb.simple.wallet.controller;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -12,6 +13,7 @@ import com.jayway.jsonpath.JsonPath;
 import java.util.UUID;
 import org.deb.simple.wallet.dto.CreateWalletRequest;
 import org.deb.simple.wallet.dto.GetWalletRequest;
+import org.deb.simple.wallet.dto.PayRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -52,6 +54,27 @@ class WalletControllerTest {
             .andReturn()
             .getResponse();
   }
+
+  @Test
+  void payFromWallet() throws Exception {
+    Integer[] coins = {2, 3, 1, 2, 1};
+    String walletId = createWallet(coins);
+    PayRequest payRequest = new PayRequest();
+    payRequest.setWalletId(UUID.fromString(walletId));
+    payRequest.setAmount(1);
+
+    String requestJson = objectMapper.writeValueAsString(payRequest);
+    MockHttpServletResponse response =
+        mockMvc
+            .perform(put("/api/wallet/v0/pay").contentType("application/json").content(requestJson))
+            .andDo(print())
+            .andExpect(jsonPath("$.message").value("Successfully paid 1 current coins are [1, 2, 2, 3]"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+  }
+
+
 
   @Test
   void getNonExistingWallet() throws Exception {

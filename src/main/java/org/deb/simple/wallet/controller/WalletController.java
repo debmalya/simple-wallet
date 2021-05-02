@@ -6,11 +6,14 @@ import org.deb.simple.wallet.dto.CreateWalletRequest;
 import org.deb.simple.wallet.dto.CreateWalletResponse;
 import org.deb.simple.wallet.dto.GetWalletRequest;
 import org.deb.simple.wallet.dto.GetWalletResponse;
+import org.deb.simple.wallet.dto.PayRequest;
+import org.deb.simple.wallet.dto.PayResponse;
 import org.deb.simple.wallet.service.WalletServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,5 +42,12 @@ public class WalletController {
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getWalletResponse);
     }
+  }
+
+  @PutMapping(value = "/pay")
+  public ResponseEntity<PayResponse> pay(@RequestBody PayRequest payRequest) {
+    PayResponse payWalletResponse =
+        walletService.pay(payRequest.getWalletId(), payRequest.getAmount());
+    return ResponseEntity.status(HttpStatus.OK).body(payWalletResponse);
   }
 }

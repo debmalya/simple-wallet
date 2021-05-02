@@ -28,6 +28,23 @@ Sample response
     "errors": []
 }
 ```
+
+* By calling api http://localhost:8080/api/wallet/v0/pay method PUT. Sample request
+```
+{
+     "walletId": "29435d59-889b-4515-8f39-4a136149c187",
+     "amount":1
+}
+```
+Sample response
+```
+{
+    "walletId": "29435d59-889b-4515-8f39-4a136149c187",
+    "message": "Successfully paid 1 current coins are [1, 2, 2, 3]",
+    "errors": []
+}
+```
+
 # Technology stack
 * Java 11
 * Spring boot ( with Spring Data JPA)
@@ -53,3 +70,6 @@ Unit test coverage using Jacoco can be run via `mvn clean test jacoco:report` an
 
 ## Install
 `mvn install`
+
+## [Swagger documentation](http://localhost:8080/swagger-ui.html)
+
