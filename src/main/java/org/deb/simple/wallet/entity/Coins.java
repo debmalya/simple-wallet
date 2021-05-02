@@ -16,10 +16,7 @@ public class Coins {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @NonNull
-  private Integer denomination;
+  @NonNull private Integer denomination;
 
-  @NonNull
-  private Long quantity;
-
+  @NonNull private Long quantity;
 }

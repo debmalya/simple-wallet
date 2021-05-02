@@ -4,6 +4,4 @@ import java.util.UUID;
 import org.deb.simple.wallet.entity.Wallet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface WalletRepository extends JpaRepository<Wallet, UUID> {
-
-}
+public interface WalletRepository extends JpaRepository<Wallet, UUID> {}

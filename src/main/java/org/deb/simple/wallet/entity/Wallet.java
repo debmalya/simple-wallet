@@ -16,12 +16,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @NoArgsConstructor
 public class Wallet {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(updatable=false, nullable=false)
-    private UUID walletId;
+  @Id
+  @GeneratedValue(generator = "UUID")
+  @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+  @Column(updatable = false, nullable = false)
+  private UUID walletId;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Coins> coinsList;
+  @OneToMany(fetch = FetchType.EAGER)
+  private List<Coins> coinsList;
 }
