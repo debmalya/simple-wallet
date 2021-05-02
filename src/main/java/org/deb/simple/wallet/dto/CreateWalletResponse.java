@@ -12,6 +12,6 @@ public class CreateWalletResponse {
   private UUID walletId;
   private String message;
 
-  @JsonProperty(value="errors")
+  @JsonProperty(value = "errors")
   private List<WalletError> walletErrorList;
 }

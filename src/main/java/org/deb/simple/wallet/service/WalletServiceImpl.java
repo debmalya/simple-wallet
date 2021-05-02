@@ -31,16 +31,17 @@ public class WalletServiceImpl implements WalletService {
     var wallet = new Wallet();
     var coinFrequencyMap = coinsService.countCoins(coinList);
     List<Coins> coinsList = new ArrayList<>();
-    coinFrequencyMap.forEach((denomination, quantity) -> {
-      if (denomination < 1){
-        addWalletError(walletErrorList, denomination);
-      }else {
-        var coins = new Coins();
-        coins.setDenomination(denomination);
-        coins.setQuantity(quantity);
-        coinsList.add(coins);
-      }
-    });
+    coinFrequencyMap.forEach(
+        (denomination, quantity) -> {
+          if (denomination < 1) {
+            addWalletError(walletErrorList, denomination);
+          } else {
+            var coins = new Coins();
+            coins.setDenomination(denomination);
+            coins.setQuantity(quantity);
+            coinsList.add(coins);
+          }
+        });
     wallet.setCoinsList(coinsRepository.saveAll(coinsList));
     wallet = walletRepository.save(wallet);
 

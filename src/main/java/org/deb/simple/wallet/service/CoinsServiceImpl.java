@@ -11,7 +11,7 @@ public class CoinsServiceImpl implements CoinsService {
 
   @Override
   public Map<Integer, Long> countCoins(Integer[] coins) {
-    if (coins == null){
+    if (coins == null) {
       throw new IllegalArgumentException("Coins value must be provided");
     }
     return Stream.of(coins)
