@@ -1,11 +1,15 @@
 package org.deb.simple.wallet.controller;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.deb.simple.wallet.dto.CreateWalletRequest;
 import org.deb.simple.wallet.dto.CreateWalletResponse;
+import org.deb.simple.wallet.dto.GetWalletRequest;
+import org.deb.simple.wallet.dto.GetWalletResponse;
 import org.deb.simple.wallet.service.WalletServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +28,16 @@ public class WalletController {
     CreateWalletResponse createWalletResponse =
         walletService.createWallet(createWalletRequest.getCoins());
     return ResponseEntity.status(HttpStatus.CREATED).body(createWalletResponse);
+  }
+
+  @GetMapping(value = "/get")
+  public ResponseEntity<GetWalletResponse> getWallet(
+      @RequestBody GetWalletRequest getWalletRequest) {
+    GetWalletResponse getWalletResponse = walletService.getWallet(getWalletRequest.getWalletId());
+    if (Objects.nonNull(getWalletResponse.getWalletId())) {
+      return ResponseEntity.status(HttpStatus.FOUND).body(getWalletResponse);
+    } else {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getWalletResponse);
+    }
   }
 }

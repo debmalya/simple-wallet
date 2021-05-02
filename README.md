@@ -14,6 +14,20 @@ Sample response
 	"errors": []
 }
 ```
+* By calling api http://localhost:8080/api/wallet/v0/get method GET. Sample request
+```
+{
+     "walletId": "29435d59-889b-4515-8f39-4a136149c187"
+}
+```
+Sample response
+```
+{
+    "walletId": "29435d59-889b-4515-8f39-4a136149c187",
+    "message": "current coins are [1, 1, 2, 2, 3]",
+    "errors": []
+}
+```
 # Technology stack
 * Java 11
 * Spring boot ( with Spring Data JPA)

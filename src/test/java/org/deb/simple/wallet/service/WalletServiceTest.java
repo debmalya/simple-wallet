@@ -14,7 +14,7 @@ class WalletServiceTest {
 
   private static final UUID NON_EXISTING_WALLET_ID =
       UUID.fromString("6b7b24f5-7d77-4bf8-a085-5c967f24f4e0");
-  private Integer[] coins = {2, 3, 1, 2, 1};
+  private final Integer[] coins = {2, 3, 1, 2, 1};
   @Autowired WalletServiceImpl walletService;
 
   @Test
@@ -52,7 +52,7 @@ class WalletServiceTest {
     GetWalletResponse getWalletResponse = walletService.getWallet(NON_EXISTING_WALLET_ID);
     assertNull(getWalletResponse.getMessage());
     assertEquals(
-        String.format("'%s' matching wallet not found", NON_EXISTING_WALLET_ID.toString()),
+        String.format("'%s' matching wallet not found", NON_EXISTING_WALLET_ID),
         getWalletResponse.getErrors().get(0).getErrorMessage());
   }
 }
