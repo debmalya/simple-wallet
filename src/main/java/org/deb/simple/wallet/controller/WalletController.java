@@ -1,6 +1,5 @@
 package org.deb.simple.wallet.controller;
 
-import io.swagger.v3.oas.annotations.Parameter;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.deb.simple.wallet.dto.CreateWalletRequest;
@@ -49,7 +48,7 @@ public class WalletController {
    */
   @GetMapping(value = "/get")
   public ResponseEntity<GetWalletResponse> getWallet(
-      @RequestBody @ParameterObject  GetWalletRequest getWalletRequest) {
+      @RequestBody @ParameterObject GetWalletRequest getWalletRequest) {
     GetWalletResponse getWalletResponse = walletService.getWallet(getWalletRequest.getWalletId());
     if (Objects.nonNull(getWalletResponse.getWalletId())) {
       return ResponseEntity.status(HttpStatus.FOUND).body(getWalletResponse);
