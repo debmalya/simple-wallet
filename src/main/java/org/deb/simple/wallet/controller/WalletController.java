@@ -1,5 +1,6 @@
 package org.deb.simple.wallet.controller;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.deb.simple.wallet.dto.CreateWalletRequest;
@@ -9,6 +10,7 @@ import org.deb.simple.wallet.dto.GetWalletResponse;
 import org.deb.simple.wallet.dto.PayRequest;
 import org.deb.simple.wallet.dto.PayResponse;
 import org.deb.simple.wallet.service.WalletServiceImpl;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,7 @@ public class WalletController {
    */
   @PostMapping(value = "/create")
   public ResponseEntity<CreateWalletResponse> createWallet(
-      @RequestBody CreateWalletRequest createWalletRequest) {
+      @RequestBody @ParameterObject CreateWalletRequest createWalletRequest) {
     CreateWalletResponse createWalletResponse =
         walletService.createWallet(createWalletRequest.getCoins());
     return ResponseEntity.status(HttpStatus.CREATED).body(createWalletResponse);
@@ -47,7 +49,7 @@ public class WalletController {
    */
   @GetMapping(value = "/get")
   public ResponseEntity<GetWalletResponse> getWallet(
-      @RequestBody GetWalletRequest getWalletRequest) {
+      @RequestBody @ParameterObject  GetWalletRequest getWalletRequest) {
     GetWalletResponse getWalletResponse = walletService.getWallet(getWalletRequest.getWalletId());
     if (Objects.nonNull(getWalletResponse.getWalletId())) {
       return ResponseEntity.status(HttpStatus.FOUND).body(getWalletResponse);
@@ -63,7 +65,7 @@ public class WalletController {
    * @return whether payment is successful or not and current coin status.
    */
   @PutMapping(value = "/pay")
-  public ResponseEntity<PayResponse> pay(@RequestBody PayRequest payRequest) {
+  public ResponseEntity<PayResponse> pay(@RequestBody @ParameterObject PayRequest payRequest) {
     PayResponse payWalletResponse =
         walletService.pay(payRequest.getWalletId(), payRequest.getAmount());
     return ResponseEntity.status(HttpStatus.OK).body(payWalletResponse);
