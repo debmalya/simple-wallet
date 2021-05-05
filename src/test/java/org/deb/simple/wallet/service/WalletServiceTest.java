@@ -15,21 +15,21 @@ class WalletServiceTest {
 
   private static final UUID NON_EXISTING_WALLET_ID =
       UUID.fromString("6b7b24f5-7d77-4bf8-a085-5c967f24f4e0");
-  private final Integer[] coins = {2, 3, 1, 2, 1};
+  private final Integer[] cash = {2, 3, 1, 2, 1};
   @Autowired WalletServiceImpl walletService;
 
   @Test
   void createWallet() {
 
-    CreateWalletResponse createWalletResponse = walletService.createWallet(coins);
+    CreateWalletResponse createWalletResponse = walletService.createWallet(cash);
     assertNotNull(createWalletResponse.getWalletId());
     assertEquals(0, createWalletResponse.getWalletErrorList().size());
   }
 
   @Test
   void createWalletError() {
-    Integer[] coins = {1, 2, 3, -1, 0};
-    CreateWalletResponse createWalletResponse = walletService.createWallet(coins);
+    Integer[] cash = {1, 2, 3, -1, 0};
+    CreateWalletResponse createWalletResponse = walletService.createWallet(cash);
     assertNotNull(createWalletResponse.getWalletId());
     assertEquals(2, createWalletResponse.getWalletErrorList().size());
     assertEquals(
@@ -42,7 +42,7 @@ class WalletServiceTest {
 
   @Test
   void getWallet() {
-    CreateWalletResponse createWalletResponse = walletService.createWallet(coins);
+    CreateWalletResponse createWalletResponse = walletService.createWallet(cash);
     UUID walletId = createWalletResponse.getWalletId();
     GetWalletResponse getWalletResponse = walletService.getWallet(walletId);
     assertEquals("current coins are [1, 1, 2, 2, 3]", getWalletResponse.getMessage());
@@ -59,16 +59,16 @@ class WalletServiceTest {
 
   @Test
   void payExact() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
   }
 
   @Test
   void payExactTwice() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
     payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
@@ -76,8 +76,8 @@ class WalletServiceTest {
 
   @Test
   void payWithChange() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
     payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
@@ -86,8 +86,8 @@ class WalletServiceTest {
 
   @Test
   void payWithChangeTwice() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
     payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
@@ -97,8 +97,8 @@ class WalletServiceTest {
 
   @Test
   void payMoreThanYouHave() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 1, "Successfully paid 1 current coins are [1, 2, 2, 3]");
     payNVerify(walletId, 3, "Successfully paid 3 current coins are [2, 3]");
@@ -109,8 +109,8 @@ class WalletServiceTest {
 
   @Test
   void payMarginalMore() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(
         walletId,
@@ -120,8 +120,8 @@ class WalletServiceTest {
 
   @Test
   void payMarginalExact() {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    CreateWalletResponse response = walletService.createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    CreateWalletResponse response = walletService.createWallet(cash);
     UUID walletId = response.getWalletId();
     payNVerify(walletId, 9, "Successfully paid 9 current coins are []");
   }

@@ -33,7 +33,7 @@ public class MessageUtil {
     return String.format("You do not have sufficient coins to pay %d", amount);
   }
 
-  public static String setCurrentMessage(Integer[] coins) {
-    return String.format("current coins are %s", Arrays.toString(coins));
+  public static String setCurrentMessage(Integer[] cash) {
+    return String.format("current coins are %s", Arrays.toString(cash));
   }
 }

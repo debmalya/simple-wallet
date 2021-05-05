@@ -1,6 +1,6 @@
 package org.deb.simple.wallet.repository;
 
-import org.deb.simple.wallet.entity.Coins;
+import org.deb.simple.wallet.entity.Cash;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CoinsRepository extends JpaRepository<Coins, Integer> {}
+public interface CoinsRepository extends JpaRepository<Cash, Integer> {}

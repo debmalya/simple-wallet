@@ -31,34 +31,34 @@ class WalletControllerTest {
 
   @Test
   void createWallet() throws Exception {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    String walletId = createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    String walletId = createWallet(cash);
     assertNotNull(walletId);
     UUID.fromString(walletId);
   }
 
   @Test
   void getExistingWallet() throws Exception {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    String walletId = createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    String walletId = createWallet(cash);
     GetWalletRequest getWalletRequest = new GetWalletRequest();
     getWalletRequest.setWalletId(UUID.fromString(walletId));
 
     String requestJson = objectMapper.writeValueAsString(getWalletRequest);
     MockHttpServletResponse response =
         mockMvc
-            .perform(get("/api/wallet/v0/get").contentType("application/json").content(requestJson))
+            .perform(get(String.format("/api/wallet/v0/get/%s",UUID.fromString(walletId))).contentType("application/json").content(requestJson))
             .andDo(print())
             .andExpect(jsonPath("$.message").value("current coins are [1, 1, 2, 2, 3]"))
-            .andExpect(status().isFound())
+            .andExpect(status().isOk())
             .andReturn()
             .getResponse();
   }
 
   @Test
   void payFromWallet() throws Exception {
-    Integer[] coins = {2, 3, 1, 2, 1};
-    String walletId = createWallet(coins);
+    Integer[] cash = {2, 3, 1, 2, 1};
+    String walletId = createWallet(cash);
     PayRequest payRequest = new PayRequest();
     payRequest.setWalletId(UUID.fromString(walletId));
     payRequest.setAmount(1);
@@ -80,19 +80,19 @@ class WalletControllerTest {
     GetWalletRequest getWalletRequest = new GetWalletRequest();
     getWalletRequest.setWalletId(UUID.fromString("58de63d9-6379-4125-9fef-8d70f7383a4e"));
 
-    String requestJson = objectMapper.writeValueAsString(getWalletRequest);
-    MockHttpServletResponse response =
-        mockMvc
-            .perform(get("/api/wallet/v0/get").contentType("application/json").content(requestJson))
-            .andDo(print())
-            .andExpect(status().isNotFound())
-            .andReturn()
-            .getResponse();
+    mockMvc
+        .perform(
+            get("/api/wallet/v0/get/58de63d9-6379-4125-9fef-8d70f7383a4e")
+                .contentType("application/json"))
+        .andDo(print())
+        .andExpect(status().isNotFound())
+        .andReturn()
+        .getResponse();
   }
 
-  private String createWallet(Integer[] coins) throws Exception {
+  private String createWallet(Integer[] cash) throws Exception {
     CreateWalletRequest createWalletRequest = new CreateWalletRequest();
-    createWalletRequest.setCoins(coins);
+    createWalletRequest.setCash(cash);
 
     String requestJson = objectMapper.writeValueAsString(createWalletRequest);
     MockHttpServletResponse response =

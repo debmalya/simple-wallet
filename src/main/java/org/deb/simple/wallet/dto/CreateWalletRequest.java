@@ -8,7 +8,7 @@ import lombok.NonNull;
 @Data
 @NoArgsConstructor
 public class CreateWalletRequest {
-  @JsonProperty(value = "coins")
+  @JsonProperty(value = "cash")
   @NonNull
-  private Integer[] coins;
+  private Integer[] cash;
 }

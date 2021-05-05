@@ -23,5 +23,5 @@ public class Wallet {
   private UUID walletId;
 
   @OneToMany(fetch = FetchType.EAGER)
-  private List<Coins> coinsList;
+  private List<Cash> cashList;
 }

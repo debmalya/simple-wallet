@@ -1,9 +1,9 @@
 # Story
-Imagine customers create digital wallet with merchants. They store their coins and pay time to time using that wallet.
+Imagine customers create digital wallet with merchants. They store their cash and pay time to time using that wallet.
 * By calling api http://localhost:8080/api/wallet/v0/create method POST. Sample request
 ```
 {
-	"coins":[2,3,1,2,1]
+	"cash":[2,3,1,2,1]
 }
 ```
 Sample response
@@ -14,17 +14,16 @@ Sample response
 	"errors": []
 }
 ```
-* By calling api http://localhost:8080/api/wallet/v0/get method GET. Sample request
+* By calling api http://localhost:8080/api/wallet/v0/get/{walletId} method GET.
+Sample request
 ```
-{
-	"walletId": "29435d59-889b-4515-8f39-4a136149c187"
-}
+http://localhost:8080/api/wallet/v0/get/29435d59-889b-4515-8f39-4a136149c187
 ```
 Sample response
 ```
 {
 	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
-	"message": "current coins are [1, 1, 2, 2, 3]",
+	"message": "current cash are [1, 1, 2, 2, 3]",
 	"errors": []
 }
 ```
@@ -40,7 +39,7 @@ Sample response
 ```
 {
 	"walletId": "29435d59-889b-4515-8f39-4a136149c187",
-	"message": "Successfully paid 1 current coins are [1, 2, 2, 3]",
+	"message": "Successfully paid 1 current cash are [1, 2, 2, 3]",
 	"errors": []
 }
 ```

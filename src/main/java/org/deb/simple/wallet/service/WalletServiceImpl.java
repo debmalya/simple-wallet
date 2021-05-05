@@ -12,7 +12,7 @@ import org.deb.simple.wallet.dto.CreateWalletResponse;
 import org.deb.simple.wallet.dto.GetWalletResponse;
 import org.deb.simple.wallet.dto.PayResponse;
 import org.deb.simple.wallet.dto.WalletError;
-import org.deb.simple.wallet.entity.Coins;
+import org.deb.simple.wallet.entity.Cash;
 import org.deb.simple.wallet.entity.Wallet;
 import org.deb.simple.wallet.repository.CoinsRepository;
 import org.deb.simple.wallet.repository.WalletRepository;
@@ -34,19 +34,19 @@ public class WalletServiceImpl implements WalletService {
     List<WalletError> walletErrorList = new ArrayList<>();
     var wallet = new Wallet();
     var coinFrequencyMap = coinsService.countCoins(coinList);
-    List<Coins> coinsList = new ArrayList<>();
+    List<Cash> cashList = new ArrayList<>();
     coinFrequencyMap.forEach(
         (denomination, quantity) -> {
           if (denomination < 1) {
             addWalletError(walletErrorList, denomination);
           } else {
-            var coins = new Coins();
-            coins.setDenomination(denomination);
-            coins.setQuantity(quantity);
-            coinsList.add(coins);
+            var cash = new Cash();
+            cash.setDenomination(denomination);
+            cash.setQuantity(quantity);
+            cashList.add(cash);
           }
         });
-    wallet.setCoinsList(coinsRepository.saveAll(coinsList));
+    wallet.setCashList(coinsRepository.saveAll(cashList));
     wallet = walletRepository.save(wallet);
 
     createWalletResponse.setWalletId(wallet.getWalletId());
@@ -90,11 +90,11 @@ public class WalletServiceImpl implements WalletService {
   private void deductAmount(Wallet retrievedWallet, int amount, PayResponse payResponse) {
     payResponse.setWalletId(retrievedWallet.getWalletId());
     int requestedAmount = amount;
-    List<Coins> unmodifiedCoins = keepOriginalCopy(retrievedWallet);
+    List<Cash> unmodifiedCoins = keepOriginalCopy(retrievedWallet);
 
     List<Integer> modifiedCoinIndexes = new ArrayList<>();
-    for (var i = 0; i < retrievedWallet.getCoinsList().size() && amount > 0; i++) {
-      var eachCoin = retrievedWallet.getCoinsList().get(i);
+    for (var i = 0; i < retrievedWallet.getCashList().size() && amount > 0; i++) {
+      var eachCoin = retrievedWallet.getCashList().get(i);
       if (eachCoin.getQuantity() > 0) {
         amount = payCoinByCoin(amount, modifiedCoinIndexes, i, eachCoin);
       }
@@ -108,7 +108,7 @@ public class WalletServiceImpl implements WalletService {
           String.format(
               "%s %s",
               MessageUtil.paymentSuccessfull(requestedAmount),
-              walletToString(retrievedWallet.getCoinsList(), new ArrayList<>()));
+              walletToString(retrievedWallet.getCashList(), new ArrayList<>()));
 
     } else {
       message =
@@ -123,12 +123,12 @@ public class WalletServiceImpl implements WalletService {
   @Transactional
   private void modifyWallet(Wallet retrievedWallet, List<Integer> modifiedCoinIndexes) {
     for (Integer modifiedCoinIndex : modifiedCoinIndexes) {
-      coinsRepository.save(retrievedWallet.getCoinsList().get(modifiedCoinIndex));
+      coinsRepository.save(retrievedWallet.getCashList().get(modifiedCoinIndex));
     }
     walletRepository.save(retrievedWallet);
   }
 
-  private int payCoinByCoin(int amount, List<Integer> modifiedCoinIndexes, int i, Coins eachCoin) {
+  private int payCoinByCoin(int amount, List<Integer> modifiedCoinIndexes, int i, Cash eachCoin) {
     int deductedQuantity = amount / eachCoin.getDenomination();
     if (deductedQuantity > 0) {
       if (eachCoin.getQuantity() >= deductedQuantity) {
@@ -147,13 +147,13 @@ public class WalletServiceImpl implements WalletService {
     return amount;
   }
 
-  private List<Coins> keepOriginalCopy(Wallet retrievedWallet) {
-    List<Coins> unmodifiedCoins = new ArrayList<>();
-    for (Coins eachCoin : retrievedWallet.getCoinsList()) {
-      Coins coins = new Coins();
-      coins.setDenomination(eachCoin.getDenomination());
-      coins.setQuantity(eachCoin.getQuantity());
-      unmodifiedCoins.add(coins);
+  private List<Cash> keepOriginalCopy(Wallet retrievedWallet) {
+    List<Cash> unmodifiedCoins = new ArrayList<>();
+    for (Cash eachCoin : retrievedWallet.getCashList()) {
+      Cash cash = new Cash();
+      cash.setDenomination(eachCoin.getDenomination());
+      cash.setQuantity(eachCoin.getQuantity());
+      unmodifiedCoins.add(cash);
     }
     return unmodifiedCoins;
   }
@@ -170,11 +170,11 @@ public class WalletServiceImpl implements WalletService {
   private void setWalletResponse(
       Wallet wallet, GetWalletResponse getWalletResponse, List<Integer> coinList) {
     getWalletResponse.setWalletId(wallet.getWalletId());
-    getWalletResponse.setMessage(walletToString(wallet.getCoinsList(), coinList));
+    getWalletResponse.setMessage(walletToString(wallet.getCashList(), coinList));
   }
 
-  private String walletToString(List<Coins> coinsList, List<Integer> coinList) {
-    for (Coins eachCoin : coinsList) {
+  private String walletToString(List<Cash> cashList, List<Integer> coinList) {
+    for (Cash eachCoin : cashList) {
       var count = 0;
       while (count < eachCoin.getQuantity()) {
         coinList.add(eachCoin.getDenomination());

@@ -31,7 +31,7 @@ class ApplicationTestsIT {
   @Test
   public void createWallet() throws Exception {
     CreateWalletRequest createWalletRequest = new CreateWalletRequest();
-    createWalletRequest.setCoins(new Integer[] {2, 3, 1, 2, 1});
+    createWalletRequest.setCash(new Integer[] {2, 3, 1, 2, 1});
     assertThat(
         this.restTemplate
             .postForEntity(

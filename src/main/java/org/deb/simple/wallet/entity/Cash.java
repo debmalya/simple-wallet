@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 @Data
 @Entity
 @NoArgsConstructor
-public class Coins {
+public class Cash {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;

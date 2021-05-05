@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public class CoinsServiceImpl implements CoinsService {
 
   @Override
-  public Map<Integer, Long> countCoins(Integer[] coins) {
-    if (coins == null) {
-      throw new IllegalArgumentException("Coins value must be provided");
+  public Map<Integer, Long> countCoins(Integer[] cash) {
+    if (cash == null) {
+      throw new IllegalArgumentException("Cash value must be provided");
     }
-    return Stream.of(coins)
+    return Stream.of(cash)
         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
   }
 }
